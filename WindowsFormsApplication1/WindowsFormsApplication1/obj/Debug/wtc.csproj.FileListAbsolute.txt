@@ -25,3 +25,9 @@ C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplicat
 C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe.manifest
 C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.application
 C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\wtc.csprojAssemblyReference.cache
+C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Lists.resources
+C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\Json.dll
+C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\Newtonsoft.Json.dll
+C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\Json.pdb
+C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\Newtonsoft.Json.xml
+C:\Users\antoine.granet\Desktop\newpc\wtc-master\wtc-master\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\wtc.csproj.CopyComplete

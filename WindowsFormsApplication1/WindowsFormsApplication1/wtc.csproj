@@ -7,8 +7,8 @@
     <ProjectGuid>{F16B3F25-4B72-4906-8A45-5986122B6D29}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WindowsFormsApplication1</RootNamespace>
-    <AssemblyName>WindowsFormsApplication1</AssemblyName>
+    <RootNamespace>pairingWTC</RootNamespace>
+    <AssemblyName>pairingWTC</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -49,18 +49,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0F4549ED1D88D9C52842795AE1C1DDF9C8831B1F</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C6A0F152E12A512C7192F068B659EC19139FF736</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>WindowsFormsApplication1_CléTemporaire.pfx</ManifestKeyFile>
+    <ManifestKeyFile>wtc_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Json, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6752e45808247c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,6 +79,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lists.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lists.Designer.cs">
+      <DependentUpon>Lists.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pairings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +93,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Lists.resx">
+      <DependentUpon>Lists.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pairings.resx">
       <DependentUpon>Pairings.cs</DependentUpon>
     </EmbeddedResource>
@@ -92,7 +107,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\Cpairing.datasource" />
     <None Include="Properties\DataSources\CpairingResult.datasource" />
     <None Include="Properties\Settings.settings">
@@ -105,6 +122,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="WindowsFormsApplication1_CléTemporaire.pfx" />
+    <None Include="wtc_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

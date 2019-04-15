@@ -24,10 +24,14 @@ namespace WindowsFormsApplication1
             }
         }
 
+        Lists lists = new Lists();
+
         public Pairings()
         {
+            lists.Hide();
             InitializeComponent();
             var file = Directory.GetCurrentDirectory();
+            //chargement des csv dans la combobox de teams
             var dirs = Directory.GetFiles(file, "*.csv");
             foreach (var f in dirs)
             {
@@ -36,6 +40,7 @@ namespace WindowsFormsApplication1
             }
             comboBoxTeams.CausesValidation = true;
             comboBoxTeams.SelectedIndexChanged += onchange;
+            //gestion de la couleur de fond des combobox de note
             comboBoxj1v1.SelectedIndexChanged += onchangenote;
             comboBoxj1v2.SelectedIndexChanged += onchangenote;
             comboBoxj1v3.SelectedIndexChanged += onchangenote;
@@ -61,8 +66,13 @@ namespace WindowsFormsApplication1
             comboBoxj5v3.SelectedIndexChanged += onchangenote;
             comboBoxj5v4.SelectedIndexChanged += onchangenote;
             comboBoxj5v5.SelectedIndexChanged += onchangenote;
+            
         }
-
+        /// <summary>
+        /// change la couleur de la combobox courante
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
         public void onchangenote(object o, object e)
         {
             ComboBox box = (ComboBox)o;
@@ -75,7 +85,11 @@ namespace WindowsFormsApplication1
                 case "5": box.BackColor = Color.Red; break;
             }
         }
-
+        /// <summary>
+        /// charge les infos de notes dans les combobox à partir d'un fichier
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
         public void onchange(object o, object e)
         {
             ComboboxItem file = (ComboboxItem)comboBoxTeams.SelectedItem;
@@ -116,7 +130,11 @@ namespace WindowsFormsApplication1
             comboBoxj5v4.SelectedIndex = int.Parse(result[5][4]) - 1;
             comboBoxj5v5.SelectedIndex = int.Parse(result[5][5]) - 1;
         }
-
+        /// <summary>
+        /// charge les notes dans un tableau 2D à partir d'un fichier
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public List<List<string>> read(string file)
         {
             List<List<string>> liste = new List<List<string>>();
@@ -144,6 +162,11 @@ namespace WindowsFormsApplication1
             return liste;
         }
 
+        /// <summary>
+        /// enregistre les notes courantes dans un fichier csv lors du clic sur enregistrer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click_1(object sender, EventArgs e)
         {
             Stream myStream;
@@ -165,15 +188,21 @@ namespace WindowsFormsApplication1
                     text += "\n" + textBoxj4.Text + ";" + comboBoxj4v1.SelectedItem.ToString() + ";" + comboBoxj4v2.SelectedItem.ToString() + ";" + comboBoxj4v3.SelectedItem.ToString() + ";" + comboBoxj4v4.SelectedItem.ToString() + ";" + comboBoxj4v5.SelectedItem.ToString();
                     text += "\n" + textBoxj5.Text + ";" + comboBoxj5v1.SelectedItem.ToString() + ";" + comboBoxj5v2.SelectedItem.ToString() + ";" + comboBoxj5v3.SelectedItem.ToString() + ";" + comboBoxj5v4.SelectedItem.ToString() + ";" + comboBoxj5v5.SelectedItem.ToString();
                     Byte[] info = new UTF8Encoding(true).GetBytes(text);
-                    // Add some information to the file.
                     myStream.Write(info, 0, info.Length);
                     myStream.Close();
                 }
             }
         }
 
+        /// <summary>
+        /// Génère les appariements lors du clic sur générer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
+            results = new List<node>();
+            //chargement des infos des joueurs renseignées dans le tableau
             List<int> j1 = new List<int> { int.Parse(comboBoxj1v1.SelectedItem.ToString()), 
                 int.Parse(comboBoxj1v2.SelectedItem.ToString()), int.Parse(comboBoxj1v3.SelectedItem.ToString()), 
                 int.Parse(comboBoxj1v4.SelectedItem.ToString()), int.Parse(comboBoxj1v5.SelectedItem.ToString()) };
@@ -223,7 +252,9 @@ namespace WindowsFormsApplication1
             generate(t1, t2);
         }
 
-
+        /// <summary>
+        /// Un joueur
+        /// </summary>
         public class player
         {
             public bool actif;
@@ -231,10 +262,14 @@ namespace WindowsFormsApplication1
             public List<int> notes = new List<int>();
         }
 
+        /// <summary>
+        /// Un noeud de l'arbre des appariements
+        /// </summary>
         public class node
         {
             public int finalPoids;
             public bool isResultC1;
+            //les poids correspondents à la somme des points possibles en dessous de l'appariement courant
             public int poidsC1;
             public int poidsC2;
             public player p1;
@@ -245,12 +280,21 @@ namespace WindowsFormsApplication1
             public List<node> nodesC2 = new List<node>();
         }
 
+        /// <summary>
+        /// arbre de résultat des appariements
+        /// </summary>
         List<node> results = new List<node>();
 
+        /// <summary>
+        /// fonction principale de génération de l'arbre des appariements
+        /// </summary>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
         public void generate(List<player> t1, List<player> t2)
         {
+            //on génère l'arbre des appariements dans results
             var poids = calculate(t1, t2, null, results, checkBoxFirst.Checked);
-            int final = drop(results);
+            //génération du tableau des pairings à éviter
             List<List<int>> avoid = new List<List<int>>();
             if (!string.IsNullOrEmpty(textBoxAvoidj1.Text) && !string.IsNullOrEmpty(textBoxAvoida1.Text))
                 avoid.Add(new List<int> { int.Parse(textBoxAvoidj1.Text) - 1, int.Parse(textBoxAvoida1.Text) - 1 });
@@ -258,18 +302,27 @@ namespace WindowsFormsApplication1
                 avoid.Add(new List<int> { int.Parse(textBoxAvoidj2.Text) - 1, int.Parse(textBoxAvoida2.Text) - 1 });
             if (!string.IsNullOrEmpty(textBoxAvoidj3.Text) && !string.IsNullOrEmpty(textBoxAvoida3.Text))
                 avoid.Add(new List<int> { int.Parse(textBoxAvoidj3.Text) - 1, int.Parse(textBoxAvoida3.Text) - 1 });
+            //modification de l'arbre final en fonction du paramétrage
             finalPath(results, avoid);
             treeView1.Nodes.Clear();
+            //création de l'arbre d'affichage
             var basenode = new TreeNode("Pairings");
             treeView1.AfterSelect += treeView1_AfterSelect;
             treeView1.Nodes.Add(basenode);
+            //génération de l'arbre d'affichage
             createTree(results, treeView1.Nodes[0].Nodes, t1, t2);
             basenode.Expand();
         }
+
+        /// <summary>
+        /// affiche dans le bandeau de droite le déroulé actuel de l'arbre choisi pour avoir une meilleure idée de l'appariement en cours
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void treeView1_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
         {
+            //je sais plus exactement ce que ça fait, mais ça marche. Ça a l'air compliqué
             var positions = getnodepairing(e.Node);
-            listViewfinal.Clear();
             positions.Reverse();
             positions.RemoveAt(0);
             if (positions.Count % 2 == 1)
@@ -286,6 +339,7 @@ namespace WindowsFormsApplication1
                 listViewfinal.Items.Add(item);
                 currentlist = positions[i + 1] == 0 ? currentnode.nodesC1 : currentnode.nodesC2;
             }
+            listViewfinal.Items.Add("----------------");
         }
 
         public string getlistpairing(node node, player adv)
@@ -322,8 +376,16 @@ namespace WindowsFormsApplication1
             return null;
         }
 
+        /// <summary>
+        /// création récursive de l'arbre d'affichage avec tous les pairings
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="treenodes"></param>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
         public void createTree(List<node> result, TreeNodeCollection treenodes, List<player> t1, List<player> t2)
         {
+            //pour chaque node on l'affiche et on crée son sous-arbre
             foreach (var node in result)
             {
                 var newnode = new TreeNode(getTreeStringMain(node, t1, t2));
@@ -340,6 +402,13 @@ namespace WindowsFormsApplication1
             }
         }
 
+        /// <summary>
+        /// affichage de la couleur en fonction du pairing sélectionné
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <returns></returns>
         public Color getmaincolor(node node, List<player> t1, List<player> t2)
         {
             Color color = Color.Blue;
@@ -353,6 +422,15 @@ namespace WindowsFormsApplication1
 
             return color;
         }
+        /// <summary>
+        /// affichage de la couleur en fonction de la note
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <param name="first"></param>
+        /// <param name="note"></param>
+        /// <returns></returns>
         public Color getcolor(node node, List<player> t1, List<player> t2, bool first, int note = -1)
         {
             Color color = Color.Blue;
@@ -370,6 +448,14 @@ namespace WindowsFormsApplication1
             }
             return color;
         }
+        /// <summary>
+        /// affichage des sous-lignes du nom du joueur et des notes possibles selon ses sous-arbres
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <param name="first"></param>
+        /// <returns></returns>
         public string getTreeStringSecond(node node, List<player> t1, List<player> t2, bool first)
         {
             string res = "";
@@ -379,6 +465,13 @@ namespace WindowsFormsApplication1
 
             return res;
         }
+        /// <summary>
+        /// affichage de la première ligne du nom du joueur et des notes possibles selon ses sous-arbres
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="t1"></param>
+        /// <param name="t2"></param>
+        /// <returns></returns>
         public string getTreeStringMain(node node, List<player> t1, List<player> t2)
         {
             string res = "";
@@ -390,6 +483,12 @@ namespace WindowsFormsApplication1
             return res;
         }
 
+        /// <summary>
+        /// renvoie le nom du joueur en fonction de sa team et de sa position
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="team1"></param>
+        /// <returns></returns>
         public string getName(int place, bool team1)
         {
             switch (place)
@@ -403,31 +502,50 @@ namespace WindowsFormsApplication1
             }
         }
 
+        /// <summary>
+        /// fonction récursive principale de génération de l'arbre des appariements
+        /// </summary>
+        /// <param name="t1">la team 1 courante</param>
+        /// <param name="t2">la team 2 courante</param>
+        /// <param name="drop">Le joueur actuellement jeté</param>
+        /// <param name="result">la liste des résultats</param>
+        /// <param name="team1">si on est actuellement sur la team1 ou la team2</param>
+        /// <returns></returns>
         public int calculate(List<player> t1, List<player> t2, player drop, List<node> result, bool team1)
         {
             int poids = 0;
+            //pour chaque joueur actif
             foreach (player player in t1.Where(a => a.actif))
             {
                 var p = player;
+                //s'il y a un joueur jeté on le prend, sinon c'est le premier appariement
                 if (drop != null)
                     p = drop;
+                //on récupère tous les couples d'appariements possibles sans doublons
                 List<List<int>> clic = getCouples(t2);
+                //si on est au bout de l'arbre on crée simplement le noeud final, condition d'arrêt de la récursion
                 if (clic.Count == 0 && t2.Count == 1)
                 {
                     var node = new node { team1 = team1, poidsC1 = p.notes[t2[0].number], poidsC2 = p.notes[t2[0].number], p1 = p, clic1 = t2[0], clic2 = t2[0], nodesC1 = new List<node>(), nodesC2 = new List<node>() };
                     result.Add(node);
                     poids += p.notes[t2[0].number];
                 }
+                //pour chaque couple d'appariement
                 foreach (var doublon in clic)
                 {
+                    //on récupère les 2 joueurs concernés
                     var clic1 = getPlayer(t2, doublon[0]);
                     var clic2 = getPlayer(t2, doublon[1]);
                     var childs1 = new List<node>();
+                    //on génère l'arbre dans le cas où le joueur 1 est choisi
                     var childPoids1 = calculate(t2.Where(a => a != clic1).ToList<player>(), t1.Where(a => a != p).ToList<player>(), clic2, childs1, !team1);
                     var childs2 = new List<node>();
+                    //on génère l'arbre dans le cas où le joueur 2 est choisi
                     var childPoids2 = calculate(t2.Where(a => a != clic2).ToList<player>(), t1.Where(a => a != p).ToList<player>(), clic1, childs2, !team1);
+                    //création du node correspondant au choix en cours, qui contient déjà tous ses arbres possibles et son poids
                     var node = new node { team1 = team1, poidsC1 = p.notes[clic1.number] + childPoids1, poidsC2 = p.notes[clic2.number] + childPoids2, p1 = p, clic1 = clic1, clic2 = clic2, nodesC1 = childs1, nodesC2 = childs2 };
                     result.Add(node);
+                    //calcul du poids total du node
                     poids += childPoids1 + childPoids2 + p.notes[clic1.number] + p.notes[clic2.number];
                 }
                 if (drop != null)
@@ -442,28 +560,12 @@ namespace WindowsFormsApplication1
             public bool player1;
         }
 
-        public int drop(List<node> pairing)
-        {
-            int position = 0;
-            List<int> notes = new List<int> { 0, 0, 0, 0, 0 };
-            foreach (var node in pairing)
-            {
-                notes[node.p1.number] += node.poidsC1 + node.poidsC2;
-            }
-            int min = notes[0];
-            int count = 0;
-            foreach (var note in notes)
-            {
-                if (note < min)
-                {
-                    position = count;
-                    min = note;
-                }
-                count++;
-            }
-            return position;
-        }
-
+        /// <summary>
+        /// modifie l'arbre en appliquant les bonus et un surpoids pour les nodes à éviter
+        /// </summary>
+        /// <param name="pairing"></param>
+        /// <param name="avoid"></param>
+        /// <returns></returns>
         public int finalPath(List<node> pairing, List<List<int>> avoid)
         {
             var bonus = 0;
@@ -471,29 +573,36 @@ namespace WindowsFormsApplication1
             int min = 0;
             int max = 0;
             bool isTeam1 = true;
+            //pour chaque pairing actuel
             foreach (var node in pairing)
             {
                 isTeam1 = node.team1;
                 var poidstmp = 0;
+                //modification récursive des pairings sous le node actuel, si la note est à 0 on applique le bonus de poids défini
                 var poidsC1 = finalPath(node.nodesC1, avoid) + (node.p1.notes[node.clic1.number] == 5 ? node.p1.notes[node.clic1.number] + bonus : node.p1.notes[node.clic1.number]);
+                //on ajoute 100 au poids si on doit éviter ce pairing pour que les arbres à éviter soient clairement visibles
                 if (testAvoid(avoid, node.p1.number, node.clic1.number))
                     poidsC1 += 100;
                 var poidsC2 = finalPath(node.nodesC2, avoid) + (node.p1.notes[node.clic2.number] == 5 ? node.p1.notes[node.clic2.number] + bonus : node.p1.notes[node.clic2.number]);
                 if (testAvoid(avoid, node.p1.number, node.clic2.number))
                     poidsC2 += 100;
+                //si on est en team1 le poids qui nous intéresse c'est le poids min vu que c'est celui qu'on va choisir
                 if (isTeam1)
                 {
                     poidstmp = Math.Min(poidsC1, poidsC2);
                     node.isResultC1 = Math.Min(poidsC1, poidsC2) == poidsC1;
+                    //le poids final du node est le max des min, les min parce que c'est nous qui choisissons quel joueur on met et le max parce que c'est l'adversaire qui choisit entre ces joueurs
                     if (min == 0)
                         min = poidstmp;
                     else
                         min = Math.Max(poidstmp, min);
                 }
+                //si on est en team2 le poids qui nous intéresse c'est le poids max vu que c'est celui que va choisir la team adverse
                 else
                 {
                     poidstmp = Math.Max(poidsC1, poidsC2);
                     node.isResultC1 = Math.Max(poidsC1, poidsC2) == poidsC1;
+                    //le poids final du node est le min des max, les max parce que c'est l'adversaire qui choisit quels joueurs il met et le min parce que c'est nous qui choisissons entre ces joueurs
                     if (max == 0)
                         max = poidstmp;
                     else
@@ -506,6 +615,13 @@ namespace WindowsFormsApplication1
             return isTeam1 ? min : max;
         }
 
+        /// <summary>
+        /// sert à vérifier si le couple de joueurs p1 et p2 est dans le tableau des pairings à éviter
+        /// </summary>
+        /// <param name="avoid"></param>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
         public bool testAvoid(List<List<int>> avoid, int p1, int p2)
         {
             bool exist = false;
@@ -520,6 +636,12 @@ namespace WindowsFormsApplication1
             return exist;
         }
 
+        /// <summary>
+        /// récupère un joueur à partir de son numéro
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
         public player getPlayer(List<player> t, int number)
         {
             foreach (player p in t)
@@ -529,10 +651,15 @@ namespace WindowsFormsApplication1
             }
             return null;
         }
-
+        /// <summary>
+        /// génère tous les couples possibles de joueurs actifs à partir d'une liste de joueur, optimisable
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public List<List<int>> getCouples(List<player> t)
         {
             List<List<int>> res = new List<List<int>>();
+            //double boucle sur les joueurs actifs
             foreach (player p in t.Where(a => a.actif))
             {
                 foreach (player c in t.Where(a => a.actif))
@@ -543,12 +670,14 @@ namespace WindowsFormsApplication1
                         bool doublon = false;
                         foreach (var tmp2 in res)
                         {
+                            //vérification si ce n'est pas un doublon dans la liste
                             if ((tmp2[0] == tmp[0] && tmp2[1] == tmp[1]) || (tmp2[1] == tmp[0] && tmp2[0] == tmp[1]))
                             {
                                 doublon = true;
                                 break;
                             }
                         }
+                        //ajout dans la liste
                         if (!doublon)
                             res.Add(tmp);
                     }
@@ -557,5 +686,14 @@ namespace WindowsFormsApplication1
             return res;
         }
 
+        private void buttonEmpty_Click(object sender, EventArgs e)
+        {
+            listViewfinal.Clear();
+        }
+
+        private void buttonLists_Click(object sender, EventArgs e)
+        {
+            lists.Show();
+        }
     }
 }

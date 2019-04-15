@@ -117,27 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="cpairingResultBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>372, 17</value>
-  </metadata>
-  <metadata name="cpairingBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="cpairingBindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>191, 17</value>
-  </metadata>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>579, 17</value>
-  </metadata>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>579, 17</value>
-  </metadata>
-  <data name="labelhelp.ToolTip" xml:space="preserve">
-    <value>Remplir le tableau en haut à droite avec les noms des joueurs (votre équipe à gauche) et les notes de 1 à 5. Plus votre note est basse mieux vous pensez être dans la partie. 
-Cocher la case de premier joueur ou non selon quelle équipe commence, puis cliquer sur générer pour créer l'arbre des appariements correspondants. 
-Ici il faut commencer à réfléchir, et il faut partir du principe que selon vos appariements l'adversaire va faire la meilleure chose possible pour lui et la pire pour vous. 
-Donc par exemple si vous êtes premier (vous lancez un joueur en premier) vous devez choisir le joueur qui a la note max la moins haute (vu qu'on suppose que l'adversaire choisira forcément cette note là). 
-Votre adversaire vous met 2 joueurs, vous ouvrez l'arbre correspondant et vous choisissez parmi les 2 choix celui avec le moins de poids vu que c'est celui qui vous arrange le plus. 
-Vous mettez ensuite 2 joueurs sur le joueur restant adverse, pour les choisir vous cherchez le couple qui a le moins de poids possible vu que c'est votre meilleur arbre. Continuez ainsi jusqu'à la fin de l'appariement. Cliquez sur un node pour afficher toutes les infos des parties choisies avant ce node à droite.</value>
-  </data>
 </root>

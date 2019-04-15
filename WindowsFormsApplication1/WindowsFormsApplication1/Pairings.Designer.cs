@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Pairings));
             this.textBoxj1 = new System.Windows.Forms.TextBox();
             this.textBoxj2 = new System.Windows.Forms.TextBox();
             this.textBoxj3 = new System.Windows.Forms.TextBox();
@@ -91,6 +92,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.button1 = new System.Windows.Forms.Button();
+            this.labelhelp = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonEmpty = new System.Windows.Forms.Button();
+            this.buttonLists = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.cpairingResultBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cpairingBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cpairingBindingSource1)).BeginInit();
@@ -670,7 +675,7 @@
             // 
             this.listViewfinal.Location = new System.Drawing.Point(813, 205);
             this.listViewfinal.Name = "listViewfinal";
-            this.listViewfinal.Size = new System.Drawing.Size(205, 555);
+            this.listViewfinal.Size = new System.Drawing.Size(205, 529);
             this.listViewfinal.TabIndex = 70;
             this.listViewfinal.TileSize = new System.Drawing.Size(200, 40);
             this.listViewfinal.UseCompatibleStateImageBehavior = false;
@@ -686,6 +691,8 @@
             // 
             // textBox1
             // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
             this.textBox1.Location = new System.Drawing.Point(12, 65);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -718,14 +725,48 @@
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 75;
             this.button1.Text = "Enregistrer";
+            this.toolTip1.SetToolTip(this.button1, "Save changes");
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // labelhelp
+            // 
+            this.labelhelp.AutoSize = true;
+            this.labelhelp.Location = new System.Drawing.Point(12, 173);
+            this.labelhelp.Name = "labelhelp";
+            this.labelhelp.Size = new System.Drawing.Size(75, 13);
+            this.labelhelp.TabIndex = 76;
+            this.labelhelp.Text = "Help (survoler)";
+            this.toolTip1.SetToolTip(this.labelhelp, resources.GetString("labelhelp.ToolTip"));
+            // 
+            // buttonEmpty
+            // 
+            this.buttonEmpty.Location = new System.Drawing.Point(942, 737);
+            this.buttonEmpty.Name = "buttonEmpty";
+            this.buttonEmpty.Size = new System.Drawing.Size(75, 23);
+            this.buttonEmpty.TabIndex = 77;
+            this.buttonEmpty.Text = "Vider";
+            this.buttonEmpty.UseVisualStyleBackColor = true;
+            this.buttonEmpty.Click += new System.EventHandler(this.buttonEmpty_Click);
+            // 
+            // buttonLists
+            // 
+            this.buttonLists.Location = new System.Drawing.Point(756, 176);
+            this.buttonLists.Name = "buttonLists";
+            this.buttonLists.Size = new System.Drawing.Size(75, 23);
+            this.buttonLists.TabIndex = 78;
+            this.buttonLists.Text = "Lists";
+            this.buttonLists.UseVisualStyleBackColor = true;
+            this.buttonLists.Click += new System.EventHandler(this.buttonLists_Click);
             // 
             // Pairings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1030, 772);
+            this.Controls.Add(this.buttonLists);
+            this.Controls.Add(this.buttonEmpty);
+            this.Controls.Add(this.labelhelp);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.label9);
@@ -859,6 +900,10 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label labelhelp;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button buttonEmpty;
+        private System.Windows.Forms.Button buttonLists;
     }
 }
 
